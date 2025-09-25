@@ -2,95 +2,80 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Blue Carbon Registry Design System - Environmental & Blockchain Theme */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Base colors - Ocean inspired */
+    --background: 210 25% 98%;
+    --foreground: 215 25% 15%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* Card system */
+    --card: 210 20% 99%;
+    --card-foreground: 215 20% 20%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 210 20% 99%;
+    --popover-foreground: 215 20% 20%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary - Ocean Blue */
+    --primary: 200 90% 35%;
+    --primary-foreground: 210 100% 98%;
+    --primary-hover: 200 85% 30%;
+    --primary-glow: 200 90% 55%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary - Carbon Dark */
+    --secondary: 215 20% 25%;
+    --secondary-foreground: 210 25% 98%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Verification Green */
+    --success: 145 70% 45%;
+    --success-foreground: 145 100% 98%;
+    --success-glow: 145 70% 65%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Warning - Emission Alert */
+    --warning: 35 85% 55%;
+    --warning-foreground: 35 100% 98%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Muted - Subtle Ocean */
+    --muted: 210 15% 94%;
+    --muted-foreground: 215 15% 50%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Accent - Teal Carbon */
+    --accent: 180 70% 40%;
+    --accent-foreground: 180 100% 98%;
 
-    --radius: 0.5rem;
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 100% 98%;
 
-    --sidebar-background: 0 0% 98%;
+    --border: 215 20% 88%;
+    --input: 215 20% 92%;
+    --ring: 200 90% 35%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+    --radius: 0.75rem;
 
-    --sidebar-primary: 240 5.9% 10%;
+    /* Gradients - Blue Carbon Theme */
+    --gradient-ocean: linear-gradient(135deg, hsl(200 90% 35%), hsl(180 70% 40%));
+    --gradient-carbon: linear-gradient(135deg, hsl(215 25% 15%), hsl(215 20% 25%));
+    --gradient-success: linear-gradient(135deg, hsl(145 70% 45%), hsl(145 65% 55%));
+    --gradient-bg: linear-gradient(180deg, hsl(210 25% 98%), hsl(210 20% 96%));
+    
+    /* Shadows - Professional depth */
+    --shadow-card: 0 4px 20px hsl(215 25% 15% / 0.08);
+    --shadow-glow: 0 0 40px hsl(200 90% 35% / 0.15);
+    --shadow-verification: 0 4px 20px hsl(145 70% 45% / 0.15);
 
-    --sidebar-primary-foreground: 0 0% 98%;
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 210 25% 96%;
+    --sidebar-foreground: 215 25% 20%;
+    --sidebar-primary: 200 90% 35%;
+    --sidebar-primary-foreground: 210 100% 98%;
+    --sidebar-accent: 210 20% 92%;
+    --sidebar-accent-foreground: 215 25% 20%;
+    --sidebar-border: 215 20% 88%;
+    --sidebar-ring: 200 90% 35%;
   }
 }
 
