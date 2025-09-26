@@ -84,7 +84,7 @@ const NGODashboard = () => {
               </div>
               <div>
                 <h1 className="text-2xl font-bold bg-gradient-ocean bg-clip-text text-transparent">
-                  Blue Carbon Registry
+                  CARBONIX
                 </h1>
                 <p className="text-sm text-muted-foreground">NGO Verification Dashboard</p>
               </div>
@@ -377,18 +377,20 @@ const NGODashboard = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">Ecosystem Type</label>
+                    <label className="text-sm font-medium">Soil Type</label>
                     <select className="w-full px-3 py-2 border rounded-lg bg-background">
-                      <option>Select ecosystem type</option>
-                      <option>Mangrove</option>
-                      <option>Seagrass</option>
-                      <option>Salt Marsh</option>
-                      <option>Coastal Wetland</option>
+                      <option>Select soil type</option>
+                      <option>Clay</option>
+                      <option>Sandy</option>
+                      <option>Loamy</option>
+                      <option>Peaty</option>
+                      <option>Saline</option>
+                      <option>Muddy</option>
                     </select>
                   </div>
                   <Button className="w-full bg-gradient-primary hover:opacity-90">
                     <Bot className="h-4 w-4 mr-2" />
-                    Generate Prediction
+                    Predict Credits & Ecosystem
                   </Button>
                 </div>
 
@@ -404,16 +406,16 @@ const NGODashboard = () => {
                     </Card>
                     <Card className="text-center p-4 bg-primary/10 border-primary/20">
                       <CardContent className="p-0">
-                        <div className="text-2xl font-bold text-primary mb-1">₹18.5L</div>
-                        <p className="text-sm text-muted-foreground">Credit Value</p>
-                        <p className="text-xs text-primary">Annual Potential</p>
+                        <div className="text-2xl font-bold text-primary mb-1">1,850</div>
+                        <p className="text-sm text-muted-foreground">Credits Needed</p>
+                        <p className="text-xs text-primary">Industry Purchase</p>
                       </CardContent>
                     </Card>
                     <Card className="text-center p-4 bg-accent/10 border-accent/20">
                       <CardContent className="p-0">
-                        <div className="text-2xl font-bold text-accent mb-1">92%</div>
-                        <p className="text-sm text-muted-foreground">Success Rate</p>
-                        <p className="text-xs text-accent">AI Confidence</p>
+                        <div className="text-2xl font-bold text-accent mb-1">Mangrove</div>
+                        <p className="text-sm text-muted-foreground">Recommended</p>
+                        <p className="text-xs text-accent">Best Ecosystem</p>
                       </CardContent>
                     </Card>
                   </div>
@@ -421,24 +423,24 @@ const NGODashboard = () => {
                   <div className="space-y-3">
                     <h4 className="font-semibold text-sm flex items-center gap-2">
                       <Leaf className="h-4 w-4 text-success" />
-                      AI Recommendations for India Projects:
+                      AI Analysis & Industry Credit Requirements:
                     </h4>
                     <div className="space-y-2 text-sm">
                       <div className="flex items-start gap-2 p-3 rounded-lg bg-muted/20">
                         <CheckCircle2 className="h-4 w-4 text-success mt-0.5 flex-shrink-0" />
-                        <span>Plant native mangrove species like Rhizophora mucronata in coastal areas</span>
+                        <span>Based on soil analysis: Mangrove ecosystem recommended for optimal carbon absorption</span>
                       </div>
                       <div className="flex items-start gap-2 p-3 rounded-lg bg-muted/20">
                         <CheckCircle2 className="h-4 w-4 text-success mt-0.5 flex-shrink-0" />
-                        <span>Focus on monsoon season planting (June-September) for optimal growth</span>
+                        <span>Industry needs to purchase 1,850 carbon credits to offset current emissions</span>
                       </div>
                       <div className="flex items-start gap-2 p-3 rounded-lg bg-muted/20">
                         <CheckCircle2 className="h-4 w-4 text-success mt-0.5 flex-shrink-0" />
-                        <span>Engage local fishing communities for long-term maintenance</span>
+                        <span>Muddy soil type ideal for mangrove growth with 95% success rate</span>
                       </div>
                       <div className="flex items-start gap-2 p-3 rounded-lg bg-muted/20">
                         <CheckCircle2 className="h-4 w-4 text-success mt-0.5 flex-shrink-0" />
-                        <span>Implement IoT sensors for real-time salinity and water level monitoring</span>
+                        <span>Estimated ₹18.5L investment needed for complete carbon neutrality</span>
                       </div>
                     </div>
                   </div>
