@@ -28,6 +28,83 @@ import CreditManagement from "@/components/CreditManagement";
 
 const NGODashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
+  
+  // AI Prediction States
+  const [aiInputs, setAiInputs] = useState({
+    trees: "",
+    area: "",
+    rainfall: "",
+    soilType: ""
+  });
+  
+  const [predictions, setPredictions] = useState({
+    carbonAbsorption: 0,
+    creditsNeeded: 0,
+    recommendedEcosystem: "Select parameters",
+    investment: 0,
+    hasPredicted: false
+  });
+
+  // AI Prediction Function
+  const handlePredict = () => {
+    const { trees, area, rainfall, soilType } = aiInputs;
+    
+    if (!trees || !area || !rainfall || !soilType) {
+      return;
+    }
+
+    // Calculate carbon absorption based on ecosystem and parameters
+    let absorptionRate = 0;
+    let ecosystemType = "";
+    let soilMultiplier = 1;
+
+    // Soil type multipliers
+    const soilMultipliers = {
+      "Muddy": 1.3,
+      "Clay": 1.1,
+      "Loamy": 1.2,
+      "Peaty": 1.4,
+      "Saline": 0.8,
+      "Sandy": 0.7
+    };
+
+    soilMultiplier = soilMultipliers[soilType] || 1;
+
+    // Determine best ecosystem based on conditions
+    if (parseInt(rainfall) > 1500 && (soilType === "Muddy" || soilType === "Saline")) {
+      ecosystemType = "Mangrove";
+      absorptionRate = 25; // tons CO2 per hectare per year
+    } else if (parseInt(rainfall) > 1000 && soilType === "Peaty") {
+      ecosystemType = "Salt Marsh";
+      absorptionRate = 18;
+    } else if (parseInt(rainfall) > 800) {
+      ecosystemType = "Seagrass";
+      absorptionRate = 15;
+    } else {
+      ecosystemType = "Coastal Forest";
+      absorptionRate = 12;
+    }
+
+    // Calculate total carbon absorption
+    const totalAbsorption = Math.round(
+      (parseInt(area) * absorptionRate * soilMultiplier) + 
+      (parseInt(trees) * 0.02) // trees contribute 0.02 tons per tree per year
+    );
+
+    // Industry typically needs 75% of absorption capacity as credits
+    const creditsForIndustry = Math.round(totalAbsorption * 0.75);
+
+    // Calculate investment (₹1000 per ton CO2 capacity)
+    const totalInvestment = totalAbsorption * 1000;
+
+    setPredictions({
+      carbonAbsorption: totalAbsorption,
+      creditsNeeded: creditsForIndustry,
+      recommendedEcosystem: ecosystemType,
+      investment: totalInvestment,
+      hasPredicted: true
+    });
+  };
 
   // Mock data for India-focused demonstration
   const stats = {
@@ -356,6 +433,8 @@ const NGODashboard = () => {
                     <label className="text-sm font-medium">Trees Planted</label>
                     <input 
                       type="number" 
+                      value={aiInputs.trees}
+                      onChange={(e) => setAiInputs({...aiInputs, trees: e.target.value})}
                       placeholder="Enter number of trees"
                       className="w-full px-3 py-2 border rounded-lg bg-background"
                     />
@@ -364,6 +443,8 @@ const NGODashboard = () => {
                     <label className="text-sm font-medium">Area (hectares)</label>
                     <input 
                       type="number" 
+                      value={aiInputs.area}
+                      onChange={(e) => setAiInputs({...aiInputs, area: e.target.value})}
                       placeholder="Enter area in hectares"
                       className="w-full px-3 py-2 border rounded-lg bg-background"
                     />
@@ -372,23 +453,32 @@ const NGODashboard = () => {
                     <label className="text-sm font-medium">Annual Rainfall (mm)</label>
                     <input 
                       type="number" 
+                      value={aiInputs.rainfall}
+                      onChange={(e) => setAiInputs({...aiInputs, rainfall: e.target.value})}
                       placeholder="Enter rainfall in mm"
                       className="w-full px-3 py-2 border rounded-lg bg-background"
                     />
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Soil Type</label>
-                    <select className="w-full px-3 py-2 border rounded-lg bg-background">
-                      <option>Select soil type</option>
-                      <option>Clay</option>
-                      <option>Sandy</option>
-                      <option>Loamy</option>
-                      <option>Peaty</option>
-                      <option>Saline</option>
-                      <option>Muddy</option>
+                    <select 
+                      value={aiInputs.soilType}
+                      onChange={(e) => setAiInputs({...aiInputs, soilType: e.target.value})}
+                      className="w-full px-3 py-2 border rounded-lg bg-background"
+                    >
+                      <option value="">Select soil type</option>
+                      <option value="Clay">Clay</option>
+                      <option value="Sandy">Sandy</option>
+                      <option value="Loamy">Loamy</option>
+                      <option value="Peaty">Peaty</option>
+                      <option value="Saline">Saline</option>
+                      <option value="Muddy">Muddy</option>
                     </select>
                   </div>
-                  <Button className="w-full bg-gradient-primary hover:opacity-90">
+                  <Button 
+                    onClick={handlePredict}
+                    className="w-full bg-gradient-primary hover:opacity-90"
+                  >
                     <Bot className="h-4 w-4 mr-2" />
                     Predict Credits & Ecosystem
                   </Button>
@@ -399,21 +489,27 @@ const NGODashboard = () => {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <Card className="text-center p-4 bg-success/10 border-success/20">
                       <CardContent className="p-0">
-                        <div className="text-2xl font-bold text-success mb-1">2,450</div>
+                        <div className="text-2xl font-bold text-success mb-1">
+                          {predictions.hasPredicted ? predictions.carbonAbsorption.toLocaleString() : "--"}
+                        </div>
                         <p className="text-sm text-muted-foreground">Tons CO₂/year</p>
                         <p className="text-xs text-success">Absorption Potential</p>
                       </CardContent>
                     </Card>
                     <Card className="text-center p-4 bg-primary/10 border-primary/20">
                       <CardContent className="p-0">
-                        <div className="text-2xl font-bold text-primary mb-1">1,850</div>
+                        <div className="text-2xl font-bold text-primary mb-1">
+                          {predictions.hasPredicted ? predictions.creditsNeeded.toLocaleString() : "--"}
+                        </div>
                         <p className="text-sm text-muted-foreground">Credits Needed</p>
                         <p className="text-xs text-primary">Industry Purchase</p>
                       </CardContent>
                     </Card>
                     <Card className="text-center p-4 bg-accent/10 border-accent/20">
                       <CardContent className="p-0">
-                        <div className="text-2xl font-bold text-accent mb-1">Mangrove</div>
+                        <div className="text-2xl font-bold text-accent mb-1">
+                          {predictions.recommendedEcosystem}
+                        </div>
                         <p className="text-sm text-muted-foreground">Recommended</p>
                         <p className="text-xs text-accent">Best Ecosystem</p>
                       </CardContent>
@@ -425,24 +521,30 @@ const NGODashboard = () => {
                       <Leaf className="h-4 w-4 text-success" />
                       AI Analysis & Industry Credit Requirements:
                     </h4>
-                    <div className="space-y-2 text-sm">
-                      <div className="flex items-start gap-2 p-3 rounded-lg bg-muted/20">
-                        <CheckCircle2 className="h-4 w-4 text-success mt-0.5 flex-shrink-0" />
-                        <span>Based on soil analysis: Mangrove ecosystem recommended for optimal carbon absorption</span>
+                    {predictions.hasPredicted ? (
+                      <div className="space-y-2 text-sm">
+                        <div className="flex items-start gap-2 p-3 rounded-lg bg-muted/20">
+                          <CheckCircle2 className="h-4 w-4 text-success mt-0.5 flex-shrink-0" />
+                          <span>Based on soil analysis: {predictions.recommendedEcosystem} ecosystem recommended for optimal carbon absorption</span>
+                        </div>
+                        <div className="flex items-start gap-2 p-3 rounded-lg bg-muted/20">
+                          <CheckCircle2 className="h-4 w-4 text-success mt-0.5 flex-shrink-0" />
+                          <span>Industry needs to purchase {predictions.creditsNeeded.toLocaleString()} carbon credits to offset current emissions</span>
+                        </div>
+                        <div className="flex items-start gap-2 p-3 rounded-lg bg-muted/20">
+                          <CheckCircle2 className="h-4 w-4 text-success mt-0.5 flex-shrink-0" />
+                          <span>{aiInputs.soilType} soil type optimal for {predictions.recommendedEcosystem.toLowerCase()} growth with high success rate</span>
+                        </div>
+                        <div className="flex items-start gap-2 p-3 rounded-lg bg-muted/20">
+                          <CheckCircle2 className="h-4 w-4 text-success mt-0.5 flex-shrink-0" />
+                          <span>Estimated ₹{(predictions.investment / 100000).toFixed(1)}L investment needed for complete carbon neutrality</span>
+                        </div>
                       </div>
-                      <div className="flex items-start gap-2 p-3 rounded-lg bg-muted/20">
-                        <CheckCircle2 className="h-4 w-4 text-success mt-0.5 flex-shrink-0" />
-                        <span>Industry needs to purchase 1,850 carbon credits to offset current emissions</span>
+                    ) : (
+                      <div className="p-4 rounded-lg bg-muted/10 border-2 border-dashed border-muted-foreground/30 text-center">
+                        <p className="text-sm text-muted-foreground">Enter parameters above and click "Predict" to see AI analysis</p>
                       </div>
-                      <div className="flex items-start gap-2 p-3 rounded-lg bg-muted/20">
-                        <CheckCircle2 className="h-4 w-4 text-success mt-0.5 flex-shrink-0" />
-                        <span>Muddy soil type ideal for mangrove growth with 95% success rate</span>
-                      </div>
-                      <div className="flex items-start gap-2 p-3 rounded-lg bg-muted/20">
-                        <CheckCircle2 className="h-4 w-4 text-success mt-0.5 flex-shrink-0" />
-                        <span>Estimated ₹18.5L investment needed for complete carbon neutrality</span>
-                      </div>
-                    </div>
+                    )}
                   </div>
                 </div>
               </div>
