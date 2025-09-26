@@ -19,7 +19,7 @@ const Index = () => {
               </div>
               <div>
                 <h1 className="text-4xl font-bold bg-gradient-ocean bg-clip-text text-transparent">
-                  Blue Carbon Registry
+                  carbonix
                 </h1>
                 <p className="text-lg text-muted-foreground">Blockchain-Based MRV System</p>
               </div>
