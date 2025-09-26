@@ -18,7 +18,8 @@ import {
   Users,
   MapPin,
   Calendar,
-  Award
+  Award,
+  Bot
 } from "lucide-react";
 import MRVReportGenerator from "@/components/MRVReportGenerator";
 import ProjectVerification from "@/components/ProjectVerification";
@@ -28,13 +29,13 @@ import CreditManagement from "@/components/CreditManagement";
 const NGODashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
 
-  // Mock data for demonstration
+  // Mock data for India-focused demonstration
   const stats = {
     totalProjects: 47,
     activeProjects: 24,
     pendingVerifications: 8,
     issuedCredits: 15420,
-    totalValueLocked: 385000,
+    totalValueLocked: 2850000, // in INR
     verifiedProjects: 15
   };
 
@@ -42,7 +43,7 @@ const NGODashboard = () => {
     { 
       id: 1, 
       name: "Mangrove Restoration - Sundarbans", 
-      location: "Bangladesh",
+      location: "West Bengal, India",
       status: "verified", 
       credits: 2400, 
       ecosystemType: "Mangrove",
@@ -51,8 +52,8 @@ const NGODashboard = () => {
     },
     { 
       id: 2, 
-      name: "Seagrass Conservation - Bolinao", 
-      location: "Philippines",
+      name: "Seagrass Conservation - Chilika Lake", 
+      location: "Odisha, India",
       status: "pending", 
       credits: 0, 
       ecosystemType: "Seagrass",
@@ -61,13 +62,13 @@ const NGODashboard = () => {
     },
     { 
       id: 3, 
-      name: "Salt Marsh Protection - San Francisco Bay", 
-      location: "California, USA",
+      name: "Salt Marsh Protection - Rann of Kutch", 
+      location: "Gujarat, India",
       status: "verified", 
       credits: 1800, 
       ecosystemType: "Salt Marsh",
       submittedDate: "2024-01-12",
-      community: "Environmental groups"
+      community: "280 families"
     },
   ];
 
@@ -163,8 +164,8 @@ const NGODashboard = () => {
               <TrendingUp className="h-4 w-4 text-primary" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-primary">${stats.totalValueLocked.toLocaleString()}</div>
-              <p className="text-xs text-muted-foreground">Credits value</p>
+              <div className="text-2xl font-bold text-primary">₹{stats.totalValueLocked.toLocaleString()}</div>
+              <p className="text-xs text-muted-foreground">Credits value (INR)</p>
             </CardContent>
           </Card>
         </div>
@@ -332,6 +333,120 @@ const NGODashboard = () => {
             <CreditManagement />
           </TabsContent>
         </Tabs>
+
+        {/* AI Prediction Section - Horizontal Layout */}
+        <div className="mt-8 animate-fade-in">
+          <Card className="shadow-glow border-primary/20 bg-gradient-to-r from-primary/5 to-accent/5">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3 text-xl">
+                <div className="p-2 rounded-lg bg-gradient-primary">
+                  <Bot className="h-6 w-6 text-primary-foreground" />
+                </div>
+                AI Ecosystem Prediction & Recommendations
+              </CardTitle>
+              <CardDescription>
+                Advanced AI analysis for carbon absorption prediction and sustainability insights
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Input Section */}
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Trees Planted</label>
+                    <input 
+                      type="number" 
+                      placeholder="Enter number of trees"
+                      className="w-full px-3 py-2 border rounded-lg bg-background"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Area (hectares)</label>
+                    <input 
+                      type="number" 
+                      placeholder="Enter area in hectares"
+                      className="w-full px-3 py-2 border rounded-lg bg-background"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Annual Rainfall (mm)</label>
+                    <input 
+                      type="number" 
+                      placeholder="Enter rainfall in mm"
+                      className="w-full px-3 py-2 border rounded-lg bg-background"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Ecosystem Type</label>
+                    <select className="w-full px-3 py-2 border rounded-lg bg-background">
+                      <option>Select ecosystem type</option>
+                      <option>Mangrove</option>
+                      <option>Seagrass</option>
+                      <option>Salt Marsh</option>
+                      <option>Coastal Wetland</option>
+                    </select>
+                  </div>
+                  <Button className="w-full bg-gradient-primary hover:opacity-90">
+                    <Bot className="h-4 w-4 mr-2" />
+                    Generate Prediction
+                  </Button>
+                </div>
+
+                {/* Prediction Results */}
+                <div className="lg:col-span-2 space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <Card className="text-center p-4 bg-success/10 border-success/20">
+                      <CardContent className="p-0">
+                        <div className="text-2xl font-bold text-success mb-1">2,450</div>
+                        <p className="text-sm text-muted-foreground">Tons CO₂/year</p>
+                        <p className="text-xs text-success">Absorption Potential</p>
+                      </CardContent>
+                    </Card>
+                    <Card className="text-center p-4 bg-primary/10 border-primary/20">
+                      <CardContent className="p-0">
+                        <div className="text-2xl font-bold text-primary mb-1">₹18.5L</div>
+                        <p className="text-sm text-muted-foreground">Credit Value</p>
+                        <p className="text-xs text-primary">Annual Potential</p>
+                      </CardContent>
+                    </Card>
+                    <Card className="text-center p-4 bg-accent/10 border-accent/20">
+                      <CardContent className="p-0">
+                        <div className="text-2xl font-bold text-accent mb-1">92%</div>
+                        <p className="text-sm text-muted-foreground">Success Rate</p>
+                        <p className="text-xs text-accent">AI Confidence</p>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  <div className="space-y-3">
+                    <h4 className="font-semibold text-sm flex items-center gap-2">
+                      <Leaf className="h-4 w-4 text-success" />
+                      AI Recommendations for India Projects:
+                    </h4>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex items-start gap-2 p-3 rounded-lg bg-muted/20">
+                        <CheckCircle2 className="h-4 w-4 text-success mt-0.5 flex-shrink-0" />
+                        <span>Plant native mangrove species like Rhizophora mucronata in coastal areas</span>
+                      </div>
+                      <div className="flex items-start gap-2 p-3 rounded-lg bg-muted/20">
+                        <CheckCircle2 className="h-4 w-4 text-success mt-0.5 flex-shrink-0" />
+                        <span>Focus on monsoon season planting (June-September) for optimal growth</span>
+                      </div>
+                      <div className="flex items-start gap-2 p-3 rounded-lg bg-muted/20">
+                        <CheckCircle2 className="h-4 w-4 text-success mt-0.5 flex-shrink-0" />
+                        <span>Engage local fishing communities for long-term maintenance</span>
+                      </div>
+                      <div className="flex items-start gap-2 p-3 rounded-lg bg-muted/20">
+                        <CheckCircle2 className="h-4 w-4 text-success mt-0.5 flex-shrink-0" />
+                        <span>Implement IoT sensors for real-time salinity and water level monitoring</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );
